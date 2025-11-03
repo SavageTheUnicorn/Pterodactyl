@@ -6,11 +6,11 @@
     },
     "exported_at": "2025-11-03T00:00:00+00:00",
     "name": "Multi Theft Auto (ARM64)",
-    "author": "your@email.com",
+    "author": "savagetheunicorn@users.noreply.github.com",
     "description": "Multi Theft Auto: San Andreas is a multiplayer modification for Grand Theft Auto: San Andreas. This egg is specifically designed for ARM64 architecture.",
     "features": null,
     "docker_images": {
-        "ghcr.io/yourusername/pterodactyl-mta-arm64:latest": "ghcr.io/yourusername/pterodactyl-mta-arm64:latest"
+        "ghcr.io/savagetheunicorn/pterodactyl:mta-arm64": "ghcr.io/savagetheunicorn/pterodactyl:mta-arm64"
     },
     "file_denylist": [],
     "startup": "./mta-server64 --config {{CONFIG_FILE}} --ip 0.0.0.0 --port {{SERVER_PORT}} --httpport {{HTTP_PORT}} --maxplayers {{MAX_PLAYERS}}",
