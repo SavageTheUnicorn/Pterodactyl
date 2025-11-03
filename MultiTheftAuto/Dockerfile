@@ -18,7 +18,11 @@ RUN apt-get update && \
         libncurses6 \
         libreadline8 \
         libc6 \
-        libstdc++6 && \
+        libstdc++6 \
+        libmysqlclient21 \
+        file \
+        iproute2 \
+        tzdata && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
