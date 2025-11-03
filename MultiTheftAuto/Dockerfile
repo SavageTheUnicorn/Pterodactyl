@@ -1,7 +1,7 @@
 FROM ubuntu:24.04
 
-LABEL author="Your Name" maintainer="your@email.com"
-LABEL org.opencontainers.image.source="https://github.com/yourusername/pterodactyl-mta-arm64"
+LABEL author="SavageTheUnicorn" maintainer="savagetheunicorn@users.noreply.github.com"
+LABEL org.opencontainers.image.source="https://github.com/SavageTheUnicorn/Pterodactyl"
 LABEL org.opencontainers.image.licenses=MIT
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -15,7 +15,7 @@ RUN apt-get update && \
         tar \
         unzip \
         ca-certificates \
-        libncursesw5 \
+        libncurses6 \
         libreadline8 \
         libc6 \
         libstdc++6 && \
