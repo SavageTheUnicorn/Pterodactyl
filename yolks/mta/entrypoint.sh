@@ -9,7 +9,7 @@ cd /home/container || exit 1
 # Function to download and setup start script
 setup_start_script()
 {
-    local script_url="https://raw.githubusercontent.com/daniscript18/pterodactyl/master/scripts/start-mta.sh"
+    local script_url="https://raw.githubusercontent.com/savagetheunicorn/pterodactyl/master/scripts/start-mta.sh"
     
     echo "Setting up start script..."
     
