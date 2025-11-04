@@ -1,0 +1,62 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2024-11-03T00:00:00-00:00",
+    "name": "Multi Theft Auto",
+    "author": "daniscript18@outlook.com",
+    "description": "Multi Theft Auto San Andreas - Native AMD64 & ARM64 Support (MTA 1.6.0+)",
+    "features": null,
+    "docker_images": {
+        "ghcr.io/savagetheunicorn/yolks:mta": "ghcr.io/savagetheunicorn/yolks:mta"
+    },
+    "file_denylist": [],
+    "startup": "./start.sh {{START_FILE}} {{CONFIG_FILE}} 0.0.0.0 {{SERVER_PORT}} {{MAX_PLAYERS}}",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"Server started and is ready to accept connections\"\r\n}",
+        "logs": "{}",
+        "stop": "shutdown"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!/bin/bash\r\nset -e\r\n\r\necho \"Starting MTA installation...\"\r\n\r\n# Update and install required packages\r\napt update -y\r\napt install -y wget tar ca-certificates\r\n\r\n# Change to temp directory\r\ncd /tmp\r\n\r\necho \"Downloading MTA server files...\"\r\n\r\n# Download MTA server (1.6.0+ has native ARM64 support)\r\nwget -q https://linux.mtasa.com/dl/multitheftauto_linux_x64.tar.gz\r\nwget -q https://linux.mtasa.com/dl/baseconfig.tar.gz\r\n\r\necho \"Extracting files...\"\r\n\r\n# Extract archives\r\ntar -xf multitheftauto_linux_x64.tar.gz\r\ntar -xf baseconfig.tar.gz\r\n\r\n# Move base config into MTA directory\r\nmv baseconfig/* multitheftauto_linux_x64/mods/deathmatch/\r\nrm -rf baseconfig\r\n\r\n# Change to MTA directory\r\ncd multitheftauto_linux_x64\r\n\r\necho \"Downloading default resources...\"\r\n\r\n# Create resources directory and download default resources\r\nmkdir -p mods/deathmatch/resources\r\ncd mods/deathmatch/resources\r\nwget -q https://mirror.mtasa.com/mtasa/resources/mtasa-resources-latest.zip\r\nif command -v unzip >/dev/null 2>&1; then\r\n    apt install -y unzip\r\nfi\r\nunzip -q mtasa-resources-latest.zip\r\ncd ../../..\r\n\r\necho \"Cleaning up...\"\r\n\r\n# Clean up downloaded archives\r\nrm -f /tmp/multitheftauto_linux_x64.tar.gz\r\nrm -f /tmp/baseconfig.tar.gz\r\nrm -f mods/deathmatch/resources/mtasa-resources-latest.zip\r\n\r\necho \"Moving files to server directory...\"\r\n\r\n# Create server directory and move files\r\nmkdir -p /mnt/server\r\ncd /tmp\r\nmv multitheftauto_linux_x64/* /mnt/server/\r\n\r\n# Set permissions\r\ncd /mnt/server\r\nchmod +x mta-server64 2>/dev/null || true\r\nchmod +x mta-server 2>/dev/null || true\r\n\r\necho \"Installation complete! MTA server is ready.\"\r\necho \"Note: MTA 1.6.0+ has native ARM64 support - no emulation needed!\"",
+            "container": "ubuntu:22.04",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "START_FILE",
+            "description": "The MTA server binary to use (mta-server64 for 64-bit systems)",
+            "env_variable": "START_FILE",
+            "default_value": "./mta-server64",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string",
+            "field_type": "text"
+        },
+        {
+            "name": "CONFIG_FILE",
+            "description": "Path to the MTA server configuration file",
+            "env_variable": "CONFIG_FILE",
+            "default_value": "./mods/deathmatch/mtaserver.conf",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string",
+            "field_type": "text"
+        },
+        {
+            "name": "MAX_PLAYERS",
+            "description": "Maximum number of players allowed on the server",
+            "env_variable": "MAX_PLAYERS",
+            "default_value": "32",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|numeric|min:1|max:4096",
+            "field_type": "text"
+        }
+    ]
+}
